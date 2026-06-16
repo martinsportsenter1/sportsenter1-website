@@ -1,0 +1,50 @@
+{
+  "name": "sportsenter1-website-agent",
+  "description": "Public marketing website agent on the sportsenter1 channel. Owns the Astro-based static site for SportSenter1 (Kolbotn and Vinterbro locations) — a self-hosted replacement for the original Wix site. Manages page content, blog posts, location data, and integration placeholders for the in-house booking/timetable system. Not a payments, member-data, or backend peer; read-only on member systems.",
+  "version": "0.1.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain", "text/markdown"],
+  "skills": [
+    {
+      "id": "site-content",
+      "name": "Site content and pages",
+      "description": "Edit Astro pages in src/pages/ (index, kolbotn, vinterbro, gruppetimer, bli-medlem, jobb, trenere, om-oss, medisinske-tjenester, vilkar) and shared components (Header, Footer, LocationPage, Base layout).",
+      "tags": ["sportsenter1", "website", "astro", "content"]
+    },
+    {
+      "id": "site-data",
+      "name": "Central site data",
+      "description": "Owns src/data/site.js — phone numbers, emails, addresses, opening hours, menu items, and icons. Single source of truth for contact info shown across the site.",
+      "tags": ["sportsenter1", "website", "config"]
+    },
+    {
+      "id": "blog-posts",
+      "name": "Blog (Just Sayin') posts",
+      "description": "Add and edit Markdown blog posts under src/content/blog/ using the Astro content collection.",
+      "tags": ["sportsenter1", "website", "blog", "markdown"]
+    },
+    {
+      "id": "booking-embed",
+      "name": "Booking/timetable embed integration",
+      "description": "Maintains the .embed-slot TODO placeholders in gruppetimer.astro and LocationPage.astro where the in-house booking/timetable system is embedded.",
+      "tags": ["sportsenter1", "website", "booking", "integration"]
+    },
+    {
+      "id": "build-and-deploy",
+      "name": "Build and preview the static site",
+      "description": "npm run dev / build / preview. Outputs static files to dist/. Public assets live under public/img/.",
+      "tags": ["sportsenter1", "website", "build"]
+    },
+    {
+      "id": "code-search",
+      "name": "Search sportsenter1-website source",
+      "description": "Find symbols, pages, and assets in the sportsenter1-website repo.",
+      "tags": ["sportsenter1"]
+    }
+  ],
+  "x-bridge-runtime": "claude-code"
+}

@@ -1,0 +1,16 @@
+---
+import LocationPage from "../components/LocationPage.astro";
+import { locations } from "../data/site.js";
+const gallery = [
+  "/img/16e925_19955ee9aff4478c816aa63d65bc43c0~mv2.jpg",
+  "/img/16e925_11655a7b2a654a0c9d551e55bb56d304~mv2.jpg",
+  "/img/16e925_1e052e726e914e70bb29d2acba67de56~mv2.jpg",
+  "/img/16e925_3e9a81b852764a5f89df9f5b29b12b6c~mv2.jpg",
+  "/img/16e925_55b6a22772c54a8ba4113fdc14196f1a~mv2.jpg",
+  "/img/16e925_7fcee2e37e514b66a678bbeae2f21594~mv2.jpg",
+  "/img/16e925_9ef08d19d7314549b982877e8eb5d1f2~mv2.jpg",
+  "/img/16e925_c1d20768459c493ebf993206390f94bf~mv2.jpg",
+  "/img/16e925_fad69cd9b6a640d2b79e9ee52d7a5c71~mv2.jpg",
+];
+---
+<LocationPage loc={locations.kolbotn} hero={gallery[0]} gallery={gallery} joinLabel="Join Kolbotn" />

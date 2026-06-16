@@ -1,0 +1,25 @@
+---
+import { nav } from "../data/site.js";
+---
+<header class="site-header">
+  <div class="container nav">
+    <a class="nav__logo" href="/" aria-label="SportSenter1 forside">
+      <img src="/img/logo.png" alt="SportSenter1 – 24/7 Treningssenter" />
+    </a>
+    <button class="nav__toggle" aria-label="Meny" aria-expanded="false" id="navToggle">☰</button>
+    <ul class="nav__links" id="navLinks">
+      {nav.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      <li><a class="btn" href="/bli-medlem">Bli medlem</a></li>
+    </ul>
+  </div>
+</header>
+<script>
+  const t = document.getElementById("navToggle");
+  const l = document.getElementById("navLinks");
+  t?.addEventListener("click", () => {
+    const open = l?.classList.toggle("open");
+    t.setAttribute("aria-expanded", String(!!open));
+  });
+</script>

@@ -1,0 +1,46 @@
+---
+import Base from "../layouts/Base.astro";
+const services = [
+  ["Spesialisert medisinsk omsorg", "For medlemmer som ønsker konsultasjon, diagnose eller en ny vurdering av alvorlige tilstander, kan vi tilby riktig fagperson. Våre spesialister dekker et bredt spekter – inkludert nevrologi, allmennmedisin og idrettsmedisin. Dr. Theodor Ellingsen er vår medisinske leder med over 20 års erfaring, tidligere nevrokirurg ved Rikshospitalet i mer enn åtte år."],
+  ["Fysioterapi", "Lederen for vår fysioterapiavdeling er Rune Solli, PhD. Er du medlem og ønsker time, ta kontakt med Lydia på avdeling Kolbotn."],
+  ["Spesialisert støtte ved utviklingsforstyrrelser", "Vi tilbyr omfattende behandling for personer med nevropsykiatriske utviklingsforstyrrelser, som autisme og Downs syndrom. Vi har en erfaren psykiatrisk sykepleier på heltid på avdeling Kolbotn med kompetanse på feltet, og kan tilby tilrettelagt trening og tilpasset behandling."],
+  ["Aldersvennlige fellesskapstjenester", "Vår avdeling på Kolbotn tilbyr et innbydende fellesskap for godt voksne – sosialisering, aktiviteter og støtte i et trygt og trivelig miljø. Lokalene har også utstyr tilrettelagt for personer med funksjonsnedsettelser."],
+  ["Personlige rehabiliteringsprogrammer", "Våre kompetente personlige trenere utarbeider skreddersydde rehabiliteringsprogrammer i tett samarbeid med legen din, fysioterapeut eller en av våre spesialister."],
+  ["Terapi for smertelindring og velvære", "I tillegg til fysioterapi og rehabilitering tilbyr vi massasje for å lindre smerte, forbedre blodomløpet og fremme generell velvære."],
+];
+---
+<Base title="Medisinske tjenester" description="Medisinske tjenester for medlemmer hos SportSenter1: spesialistkonsultasjon, fysioterapi, rehabilitering, massasje og tilrettelagt trening.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/11062b_938d4c49eaa04cd5ac225719e9d98bb4~mv2.jpeg" alt="Medisinske tjenester hos SportSenter1" />
+    <div class="container hero__inner">
+      <p class="eyebrow">For våre medlemmer</p>
+      <h1>Medisinske tjenester</h1>
+      <p>Verdifulle tjenester vi har levert i mange år – eksklusivt for våre medlemmer.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <p class="lead">Som mange av våre senior-medlemmer har erfaring med, er dette verdifulle tjenester vi har levert i mange år. De vil fortsatt være eksklusive for våre medlemmer – men etter hvert som vi utvider, håper vi å kunne tilby dem til enda flere.</p>
+    </div>
+    <div class="container">
+      <div class="grid grid-2" style="margin-top:24px">
+        {services.map((s) => (
+          <div class="card"><div class="card__body">
+            <h3>{s[0]}</h3>
+            <p>{s[1]}</p>
+          </div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container measure">
+      <h2>Vårt løfte til deg</h2>
+      <p>SportSenter1 ønsker å bidra til å hjelpe deg på veien til bedre helse. Vi forplikter oss til å tilby den støtten du trenger, uansett hvor du er i livet nå – og hele veien gjennom dine år som senior.</p>
+      <p>For å avtale time, ta kontakt med <strong>Lydia på avdeling Kolbotn</strong>.</p>
+      <a class="btn btn--blue" href="/kolbotn">Kontakt Kolbotn</a>
+    </div>
+  </section>
+</Base>

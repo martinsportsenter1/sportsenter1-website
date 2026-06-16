@@ -1,0 +1,18 @@
+---
+import LocationPage from "../components/LocationPage.astro";
+import { locations } from "../data/site.js";
+const gallery = [
+  "/img/16e925_154f5298340642129dd215801145470c~mv2.jpg",
+  "/img/16e925_3320ce91fdf7423aaaae821a0854a224~mv2.jpg",
+  "/img/16e925_775daa9964fa40bfb0f3540f55ae9e2e~mv2.jpg",
+  "/img/16e925_7d9f9b5d253c47908960b29438fa4c23~mv2.jpg",
+  "/img/16e925_879be3e583f24142be3e44d454947e8f~mv2.jpg",
+  "/img/16e925_8bc208d23fbe4b1980faf6969410975f~mv2.jpg",
+  "/img/16e925_9ed28065e3854db08230bfaa1db3a449~mv2.jpg",
+  "/img/16e925_bf0215ab412349c1ab6317afe697586b~mv2.jpg",
+  "/img/16e925_d1cae1a8e13444f586e21bbf0c169183~mv2.jpg",
+  "/img/16e925_d9bffe9024224e9e80a8813e0b1972a0~mv2.jpg",
+  "/img/16e925_e32333e2ef7a4c77b0d66e80370ebd5b~mv2.jpg",
+];
+---
+<LocationPage loc={locations.vinterbro} hero={gallery[0]} gallery={gallery} joinLabel="Join Vinterbro" />

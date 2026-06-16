@@ -1,0 +1,36 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site.js";
+const areas = [
+  "Personlige trenere & instruktører",
+  "Fysioterapeuter",
+  "Resepsjon & kundeservice",
+  "Markedsføring & administrasjon",
+  "Drift, renhold & vaktmestertjenester",
+  "IT & teknisk support",
+];
+---
+<Base title="Jobb hos oss" description="Bli en del av teamet hos SportSenter1. Vi rekrutterer til flere områder – send gjerne en åpen søknad.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/16e925_3cde3dcd7c0447398f19b9ef5e84dc6e~mv2.png" alt="Jobb hos SportSenter1" />
+    <div class="container hero__inner">
+      <p class="eyebrow">Karriere</p>
+      <h1>Bli en del av vårt team!</h1>
+      <p>Vi er i stadig vekst og leter alltid etter engasjerte og dyktige mennesker.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <p>Her på SportSenter1 er vi i stadig vekst, og alltid på utkikk etter engasjerte og dyktige mennesker som ønsker å utgjøre en positiv forskjell i våre medlemmers helse- og treningshverdag. Føler du at du passer inn i kulturen vår, vil vi mer enn gjerne høre fra deg.</p>
+      <h3>Muligheter tilpasset ditt liv</h3>
+      <p>Enten du ser etter en fulltidsstilling, en deltidsstilling, eller opererer som selvstendig næringsdrivende (for eksempel uavhengige personlige trenere eller fysioterapeuter), har vi plass til deg. Vi verdsetter ulik bakgrunn og ulike livsfaser.</p>
+      <h3>Områder vi regelmessig rekrutterer til</h3>
+      <ul>{areas.map((a) => (<li>{a}</li>))}</ul>
+      <h3>Finner du ikke din rolle? Send en åpen søknad!</h3>
+      <p>Selv om vi ikke skulle ha en ledig stilling som matcher din profil akkurat i dag, er vi alltid åpne for eksepsjonelle talenter. Ta kontakt og fortell oss hvem du er, hva du ser etter, og hvordan du kan bidra til teamet vårt.</p>
+      <p><a class="btn" href={`mailto:${site.email}?subject=Jobbsøknad`}>Send søknad på e-post</a></p>
+      <!-- TODO: bytt ut e-post-CTA med jobbsøknadsskjema om ønskelig -->
+    </div>
+  </section>
+</Base>

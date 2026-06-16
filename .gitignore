@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+scrape/images/
+.DS_Store
+
+# temp visual-check artifacts
+shot*.mjs
+orig-*.png
+mine-*.png

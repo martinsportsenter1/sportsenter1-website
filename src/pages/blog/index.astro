@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+const posts = (await getCollection("blog")).sort(
+  (a, b) => (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0)
+);
+---
+<Base title="Just Sayin'" description="Just Sayin' – treningstips, helse og inspirasjon fra SportSenter1.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/11062b_907dbf5a93c04fd7b3843affadaeaf27~mv2.jpg" alt="SportSenter1 blogg" />
+    <div class="container hero__inner">
+      <p class="eyebrow">Bloggen</p>
+      <h1>Just Sayin'</h1>
+      <p>Just in case you're wondering... treningstips, helse og litt ettertanke.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {posts.map((p) => (
+          <a class="card" href={`/blog/${p.slug}`}>
+            <div class="card__body">
+              <h3>{p.data.title}</h3>
+              <p>{p.data.excerpt}</p>
+              <p style="color:var(--orange);font-weight:700">Les mer →</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

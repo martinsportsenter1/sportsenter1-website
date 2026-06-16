@@ -1,0 +1,69 @@
+---
+import Base from "../layouts/Base.astro";
+
+const trainers = [
+  { name: "Olav", photo: "/img/trainers/olav.jpg", role: "Personlig trener", bio: "Møter deg alltid med et stort smil og mye kunnskap. Trent ballsport, styrke og kondisjon hele livet, og jobbet som PT siden 2018.", tags: ["Skadeforebyggende", "Styrkeløft", "Bevegelighet", "Kostholdsveiledning"] },
+  { name: "Hassan", photo: "/img/trainers/hassan.jpg", role: "PT & rehabiliteringstrener", bio: "Faglig interessert PT som hjelper deg systematisk mot målet, med masse treningsglede. Tidligere fotballspiller.", tags: ["Rehabilitering", "Styrketrening", "Livsstilsendring", "Kostholdsveileder"] },
+  { name: "Lydia", photo: "/img/trainers/lydia.jpg", role: "Personlig trener", bio: "Dyktig på å tilpasse treningen til ditt spesifikke behov. Møter deg med varmt smil og masse entusiasme. Pilatesinstruktør siden 2012.", tags: ["Styrke", "Kondisjon", "Spesialtilpasning"] },
+  { name: "Silje", photo: "/img/trainers/silje.png", role: "Instruktør", bio: "En dame med masse energi som smitter over på alle. Sertifisert instruktør fra NIH og lisensiert Zumbainstruktør.", tags: ["Zumba", "Spinning", "Step Styrke"] },
+  { name: "Richard", photo: "/img/trainers/richard.png", role: "Instruktør", bio: "La deg rive med og slå deg løs med inspirerende musikk og dans. Sertifisert Zumba- og Boot Camp-instruktør.", tags: ["Zumba", "Boot Camp", "Styrke"] },
+  { name: "Mina", photo: "/img/trainers/mina.png", role: "Zumbainstruktør", bio: "Sertifisert zumbainstruktør med over 10 års erfaring på SportSenter1. Trening er moro, og Zumba er for alle!", tags: ["Zumba"] },
+  { name: "Tom-Arild", photo: "/img/trainers/tom-arild.png", role: "Instruktør", bio: "Tar deg med på inspirerende gruppetreninger. Erfaring som instruktør i Zumba, Stram Opp Puls og Boot Camp siden 2013.", tags: ["Stram Opp Puls", "Zumba", "Boot Camp"] },
+  { name: "Merethe", photo: "/img/trainers/merethe.png", role: "Instruktør", bio: "Instruktør siden 2005 med lang og variert idrettsbakgrunn som gjenspeiles på timene hennes.", tags: ["Gruppetimer"] },
+  { name: "Benthe", photo: "/img/trainers/benthe.png", role: "Instruktør", bio: "Ei dame full av energi og en gledesspreder. Sertifisert Zumba- og Step Styrke-instruktør.", tags: ["Zumba", "Kondisjon", "Step Styrke"] },
+  { name: "Kari", photo: "/img/trainers/kari.png", role: "Spinninginstruktør", bio: "Sprer treningsglede med smittende humør og fengende musikk. Spinninginstruktør på SportSenter1 siden 2015.", tags: ["Spinning"] },
+  { name: "Lars Kristian", photo: "/img/trainers/lars-kristian.png", role: "Spinninginstruktør", bio: "Aktiv i spinningrommet, på landevei og i skogen. Ambassadør for Team Rynkeby til inntekt for Barnekreftforeningen.", tags: ["Spinning"] },
+  { name: "Atle", photo: "/img/trainers/atle.png", role: "Spinninginstruktør", bio: "Norges beste landeveisrytter i sin årsklasse, med over 600 treningstimer i året. Timene hans blir ikke rolige!", tags: ["Intens Spinning"] },
+];
+---
+<Base title="Våre Trenere" description="Møt våre dyktige personlige trenere og instruktører. Bestill en uforpliktende og gratis 30-minutters konsultasjon.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/11062b_ef6ae2b52faf4caa807020f0463949b7~mv2_d_6720_4480_s_4_2.jpg" alt="Personlig trening hos SportSenter1" />
+    <div class="container hero__inner">
+      <p class="eyebrow">Personlig trening</p>
+      <h1>Bestill din personlige trening</h1>
+      <p>Våre personlige trenere tilbyr en uforpliktende og gratis 30-minutters konsultasjon. Ta kontakt i resepsjonen for mer informasjon.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <h2>Gode grunner til å bruke personlig trener</h2>
+      <p>Med en personlig trener får du god veiledning – like viktig enten du har god erfaring eller er nybegynner. Gjennom tester og øvelser sammen med PT-en, og erfaringene du gjør underveis, skaffer du deg kunnskap om deg selv og kroppen din som gjør treningen langt mer effektiv og morsom. PT-en din er også en god motivator som får deg til å prestere ditt beste.</p>
+      <ul>
+        <li>Treningen skreddersys etter dine behov og målsetninger.</li>
+        <li>Hjelp til å sette realistiske mål og en konkret plan.</li>
+        <li>En fast avtale gjør det lettere å trene regelmessig.</li>
+        <li>Mindre risiko for skader og overbelastning.</li>
+        <li>Du blir utfordret til å gå utenfor komfortsonen.</li>
+        <li>Treningen blir morsommere – og du får indre motivasjon.</li>
+      </ul>
+      <p>Du bestemmer selv hvor mange ganger du vil trene med en PT. Har du aldri gjort det før, anbefaler vi minst tre timer før du tar stilling til om det er noe for deg.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <p class="display center" style="margin-bottom:46px">Meet our<br />trainers</p>
+      <div class="trainers-grid">
+        {trainers.map((t) => (
+          <div class="trainer">
+            <h3>{t.name}</h3>
+            <img class="trainer__photo" src={t.photo} alt={`${t.name} – SportSenter1`} loading="lazy" />
+            <p class="role">{t.role}</p>
+            <p>{t.bio}</p>
+            <p class="tags">{t.tags.join(" · ")}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--black center">
+    <div class="container measure">
+      <h2>Klar for å komme i gang?</h2>
+      <p>Ta kontakt i resepsjonen for en gratis konsultasjon med en av våre trenere.</p>
+      <a class="btn" href="/bli-medlem">Bli medlem</a>
+    </div>
+  </section>
+</Base>

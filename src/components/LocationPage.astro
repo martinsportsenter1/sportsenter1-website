@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site.js";
+const { loc, hero, gallery, joinLabel } = Astro.props;
+---
+<Base title={loc.name} description={`SportSenter1 ${loc.name} – ${loc.address}. Åpent 24/7. Se kontaktinfo, åpningstider og bli medlem.`}>
+  <section class="hero page-hero">
+    <img class="hero__bg" src={hero} alt={`SportSenter1 ${loc.name}`} />
+    <div class="container hero__inner">
+      <p class="eyebrow">Avdeling {loc.name}</p>
+      <h1>SportSenter1 {loc.name}</h1>
+      <p>{loc.address} · Åpent 24/7, hele året.</p>
+      <p><a class="btn" href="/bli-medlem">{joinLabel}</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <h2>Kontakt &amp; åpningstider</h2>
+        <p>
+          <strong>Telefon:</strong> <a href={site.phoneHref}>{loc.phone}</a><br />
+          <strong>E-post:</strong> <a href={`mailto:${loc.email}`}>{loc.email}</a><br />
+          <strong>Adresse:</strong> {loc.address}
+        </p>
+        <p><strong>Åpent for medlemmer:</strong> Døgnet rundt, 24/7 – hele året.</p>
+        <h3>Resepsjonen er betjent</h3>
+        <table style="border-collapse:collapse">
+          <tbody>
+          {loc.hours.map((h) => (
+            <tr><td style="padding:4px 24px 4px 0;font-weight:600">{h[0]}</td><td>{h[1]}</td></tr>
+          ))}
+          </tbody>
+        </table>
+        <p style="margin-top:20px"><a class="btn btn--blue" href={loc.mapsUrl} target="_blank" rel="noopener">Vis i kart</a></p>
+      </div>
+      <div>
+        <img src={gallery[0]} alt={`SportSenter1 ${loc.name}`} />
+      </div>
+    </div>
+  </section>
+
+  <!-- Per-location schedule embed -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">Timeplan {loc.name}</p><h2>Gruppetimer på {loc.name}</h2></div>
+      <div class="embed-slot" style="margin-top:30px">
+        <p><strong>Timeplan for {loc.name} kobles til her</strong> – embed/iframe eller API-kall til bookingsystemet, filtrert på denne avdelingen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">Galleri</p><h2>Innendørs hos {loc.name}</h2></div>
+      <div class="gallery" style="margin-top:30px">
+        {gallery.map((g) => (<img src={g} alt={`SportSenter1 ${loc.name}`} loading="lazy" />))}
+      </div>
+    </div>
+  </section>
+</Base>

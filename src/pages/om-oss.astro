@@ -1,0 +1,61 @@
+---
+import Base from "../layouts/Base.astro";
+
+const testimonials = [
+  ["De ansatte er alltid imøtekommende og hjelpsomme. Jeg føler meg trygg når jeg trener her.", "Ida L"],
+  ["Beste treningssenteret i byen. Stemningen er motiverende og vennlig.", "Therese"],
+  ["Personlig trenerne er kunnskapsrike og støttende.", "Anette M. S."],
+  ["Jeg har prøvd flere sentre — dette skiller seg ut med renhold og service.", "Jan Ole Pettersen"],
+  ["Gruppetimene er utfordrende, men gøy. Alltid god energi.", "Mia"],
+  ["Senteret har alt jeg trenger, fra kondisjon til frivekter.", "Andreas"],
+];
+---
+<Base title="Om Oss" description="SportSenter1 har vært i drift siden 2007. Premium treningssenter med fokus på personlig oppfølging, helse og kvalitet på Kolbotn og Vinterbro.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/16e925_8b4732c71e4a4a9d9709ce25db4a315c~mv2.png" alt="Om SportSenter1" />
+    <div class="container hero__inner">
+      <p class="eyebrow">Om oss</p>
+      <h1>Helsen din fortjener mer</h1>
+      <p>Et premium treningssenter med fokus på personlig oppfølging, kvalitet og ekte helse.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <h2>Litt om oss</h2>
+      <p>SportSenter1 har vært i drift siden 2007, men fikk nytt eierskap sommeren 2011. Kort tid etter, i 2013, ble senteret vårt på Kolbotn pusset opp og utvidet til nesten dobbelt så stort. Samtidig ble også vårt senter på Vinterbro «født».</p>
+
+      <h3>Hva vi tilbyr</h3>
+      <p>Vi er et premium treningssenter med fokus på personlig oppfølging. Utstyret er moderne og blir jevnlig og nøye renholdt. Treningssentrene har apparater og frivekter, cardioområde, cross cage, gruppetimer, PT-timer, trenings- og kostholdsveiledning og barnerom. I tillegg har begge sentrene 24-timers åpningstid hele året – du bestemmer selv når du vil trene. Vi har lang resepsjonstid og selger klær, mat, drikke og kosttilskudd.</p>
+
+      <h3>Vi er i stadig vekst og nyter hvert sekund</h3>
+      <p>Vi er et treningssenter som har satt oss som mål å alltid vokse. Vi prøver konstant å finne nye muligheter for forbedring slik at vi kan hjelpe våre kunder så godt som mulig. Vi har en fin gjeng med imøtekommende ansatte som alltid er klare til å hjelpe, og vi tar stolthet i atmosfæren vi skaper! Blant våre ansatte finner du lærere, doktorer, terapeuter, idrettsutøvere og til og med en verdensrekordholder.</p>
+
+      <h3>Bedre helse for alle</h3>
+      <p>Vi ønsker å forbedre folks helse. Vi vil at alle skal kunne leve sunnere, få bedre livskvalitet og leve lengre – og vi har blant annet medlemmer på godt over 90 år som daglig trener hos oss. Vi ønsker å hjelpe deg med å være den beste versjonen av deg selv. Ta kontakt med oss i resepsjonen, en personlig trener eller en instruktør, så får vi deg i gang!</p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container measure">
+      <p class="eyebrow">Rent senter</p>
+      <h2>Vårt samarbeid med Antidoping Norge</h2>
+      <p>Hos SportSenter1 nøyer vi oss ikke med å bare henge et skilt på veggen; vi håndhever en streng nulltoleranse. Vi jobber tett med Antidoping Norge for å sikre at miljøet vårt forblir rent, trygt og fokusert på ekte helse.</p>
+      <p>Mens mange sentre hevder å være et «Rent Senter», er vi blant dem som faktisk håndhever reglene. Vi tar sterkt avstand fra steroider, men vi er her for å støtte individet. Hvis du bruker ulovlige midler i dag og ønsker å slutte, tilbyr vi et trygt og fullstendig konfidensielt miljø for å hjelpe deg tilbake til naturlig helse.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">Det sier medlemmene</p><h2>Hør det fra våre medlemmer</h2></div>
+      <div class="grid grid-3" style="margin-top:36px">
+        {testimonials.map((t) => (
+          <div class="card"><div class="card__body">
+            <p>“{t[0]}”</p>
+            <p><strong>— {t[1]}</strong></p>
+          </div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

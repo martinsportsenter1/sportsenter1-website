@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+
+const classes = [
+  ["Zumba", "Dansebasert kondisjonstrening med fengende musikk – moro for alle nivåer."],
+  ["Spinning", "Intens sykkeløkt på innendørssykkel som bygger kondisjon og utholdenhet."],
+  ["Stram Opp Puls", "Kombinasjonsøkt med kondisjon og styrke for hele kroppen."],
+  ["Step Styrke", "Styrke- og kondisjonstrening på stepkasse til musikk."],
+  ["Boot Camp", "Variert og effektiv intervalltrening som utfordrer hele kroppen."],
+  ["Full Body Strength", "Styrketrening som tar for seg alle store muskelgrupper."],
+];
+---
+<Base title="Gruppetimer" description="Varierte gruppetimer på Kolbotn og Vinterbro – Zumba, spinning, styrke og mer. Se timeplanen og book din time.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/16e925_6fccdfe11e4c44bbbab83a12f9930d6b~mv2.jpg" alt="Gruppetimer hos SportSenter1" />
+    <div class="container hero__inner">
+      <p class="eyebrow">Gruppetimer</p>
+      <h1>Tren sammen – kom i form</h1>
+      <p>Varierte gruppetimer med dyktige instruktører på begge avdelinger. Det er alltid god energi!</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">Vårt tilbud</p><h2>Et utvalg av timene våre</h2></div>
+      <div class="grid grid-3" style="margin-top:36px">
+        {classes.map((c) => (
+          <div class="card"><div class="card__body">
+            <h3>{c[0]}</h3>
+            <p>{c[1]}</p>
+          </div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Schedule from custom gym admin system goes here -->
+  <section class="section section--alt" id="timeplan">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">Timeplan</p><h2>Ukens timeplan</h2>
+        <p class="lead">Book din time direkte. Timeplanen oppdateres fra vårt eget bookingsystem.</p>
+      </div>
+      <!-- TODO: bytt ut denne plassholderen med embed/iframe eller API-kall til deres bookingsystem -->
+      <div class="embed-slot" style="margin-top:30px">
+        <p><strong>Timeplan / booking-modul kobles til her.</strong></p>
+        <p>Her settes inn embed-koden (iframe) eller widget fra det egenbygde bookingsystemet, eller et API-kall som henter dagens timer.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--black center">
+    <div class="container measure">
+      <h2>Bli med på en time</h2>
+      <p>Som medlem har du tilgang til alle gruppetimer på begge avdelinger.</p>
+      <a class="btn" href="/bli-medlem">Bli medlem</a>
+    </div>
+  </section>
+</Base>

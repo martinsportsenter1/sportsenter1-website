@@ -1,0 +1,114 @@
+---
+import Base from "../layouts/Base.astro";
+import { locations } from "../data/site.js";
+import { icons } from "../data/icons.js";
+const { kolbotn, vinterbro } = locations;
+
+const features = [
+  { icon: icons.medlemmer, title: "Medlemmer blir hos oss lengst" },
+  { icon: icons.prisgaranti, title: "Prisgaranti, livet ut" },
+  { icon: icons.helsepersonell, title: "I samarbeid med helsepersonell" },
+  { icon: icons.resepsjon, title: "Vennlig resepsjon, alltid her" },
+  { icon: icons.apent247, title: "Åpent 24/7, hele året" },
+];
+---
+<Base>
+  <!-- Hero -->
+  <section class="hero-contained">
+    <div class="container">
+      <div class="hero-box">
+        <video autoplay muted loop playsinline poster="/img/hero.jpg">
+          <source src="/img/hero.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-box__text">
+          <h1>Bli mer enn du kunne forestille deg</h1>
+          <p><a class="btn" href="/bli-medlem">Bli medlem</a></p>
+          <p style="margin:0">Fordi du fortjener det.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature tiles -->
+  <section class="section">
+    <div class="container">
+      <div class="tiles">
+        {features.map((f) => (
+          <div class="tile">
+            <div class="ic" set:html={f.icon} />
+            <h3>{f.title}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Campaign -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="center"><h2 style="font-weight:600;letter-spacing:.04em">....... kampanje .......</h2></div>
+      <div class="split" style="margin-top:30px">
+        <div>
+          <p class="eyebrow">17. mai-kampanje</p>
+          <ul>
+            <li>2 mnd gratis trening</li>
+            <li>Gratis innmelding og adm.gebyr</li>
+            <li>Gratis veiledning</li>
+          </ul>
+          <p style="color:var(--muted-text)">Gjelder Gull-abonnement med 12 måneders bindingstid, ved innmelding 17.–31. mai.</p>
+          <a class="btn" href="/bli-medlem">Bli medlem</a>
+        </div>
+        <div><img src="/img/16e925_2530e27650be4e7b8179b0bbdacd14f8~mv2.jpg" alt="Trening hos SportSenter1" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Price guarantee -->
+  <section class="section">
+    <div class="container split">
+      <div><img src="/img/16e925_a40ef2c68001416bbd68d4b4f5bfa78d~mv2.jpg" alt="Personlige trenere hos SportSenter1" /></div>
+      <div>
+        <p class="eyebrow">Prisgaranti</p>
+        <h2>Lås prisen din – for alltid</h2>
+        <p>Med vår livstids prisgaranti vil din medlemspris aldri øke. Hvor mange ting beholder samme pris for evig? Din favorittbukse vil ikke passe deg livet ut, men prisen på treningsmedlemskapet ditt hos oss vil!</p>
+        <p>Bli medlem nå og lås prisen din – ingen overraskelser, bare muskler!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Giant BLI MEDLEM -->
+  <section class="section section--black center">
+    <div class="container">
+      <p class="display">Bli<br />medlem</p>
+      <p style="margin:24px 0 28px;color:#cfcfcf">Where Your Fitness Goals Become Reality</p>
+      <a class="btn btn--blue btn--lg" href="/bli-medlem">Start din treningsreise</a>
+    </div>
+  </section>
+
+  <!-- Locations -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">To avdelinger</p><h2>Finn ditt senter</h2></div>
+      <div class="grid grid-2" style="margin-top:36px">
+        {[kolbotn, vinterbro].map((loc) => (
+          <div class="card">
+            <img src={loc.name === "Kolbotn" ? "/img/16e925_19955ee9aff4478c816aa63d65bc43c0~mv2.jpg" : "/img/16e925_154f5298340642129dd215801145470c~mv2.jpg"} alt={`SportSenter1 ${loc.name}`} style="aspect-ratio:16/9;object-fit:cover" />
+            <div class="card__body">
+              <h3>{loc.name} avdeling</h3>
+              <p style="color:var(--muted-text)">{loc.address}</p>
+              <p><a href={loc.name === "Kolbotn" ? "/kolbotn" : "/vinterbro"} class="btn btn--blue">Mer om {loc.name}</a></p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- App -->
+  <section class="section section--black center">
+    <div class="container measure">
+      <h2>Last ned SportSenter1-appen</h2>
+      <p style="color:var(--muted-text)">Book gruppetimer, hold oversikt over treningen og få tilgang – rett fra mobilen.</p>
+    </div>
+  </section>
+</Base>

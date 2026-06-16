@@ -1,0 +1,35 @@
+---
+import { site, locations } from "../data/site.js";
+const { kolbotn, vinterbro } = locations;
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img class="footer-logo" src="/img/logo.png" alt="SportSenter1" />
+        <p>Ditt treningssenter på Vinterbro og Kolbotn. Varierte gruppetimer, dyktige personlige trenere og åpent 24/7 – hele året.</p>
+        <p><a href={site.phoneHref}>{site.phone}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+      <div>
+        <h4>Avdeling {kolbotn.name}</h4>
+        <p>{kolbotn.address}</p>
+        <p><strong>Resepsjon:</strong><br />
+          {kolbotn.hours.map((h) => (<span>{h[0]}: {h[1]}<br /></span>))}
+        </p>
+      </div>
+      <div>
+        <h4>Avdeling {vinterbro.name}</h4>
+        <p>{vinterbro.address}</p>
+        <p><strong>Resepsjon:</strong><br />
+          {vinterbro.hours.map((h) => (<span>{h[0]}: {h[1]}<br /></span>))}
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>
+        <a href="/jobb">Jobb hos oss</a> · <a href="/vilkar">Vilkår</a> · Åpent 24/7 hele året
+      </p>
+      <p>© {new Date().getFullYear()} {site.name}</p>
+    </div>
+  </div>
+</footer>

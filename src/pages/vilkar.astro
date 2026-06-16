@@ -1,0 +1,44 @@
+---
+import Base from "../layouts/Base.astro";
+const sections = [
+  ["1. Medlemsavtale og medlemskapskategorier", ["1.1 Generelle vilkår", "1.2 Medlemmets ansvar", "1.3 Kategorier og tilgang (Bronse / Sølv / Gull)", "1.4 Rabatter"]],
+  ["2. Administrasjon og opphør av medlemskap", ["2.1 Eksklusiv metode for oppsigelse", "2.2 Oppsigelsestid", "2.3 Lojalitetsbonus etter endt bindingstid", "2.4 Frys-regler for Gull-medlemskap", "2.5 Utestående fordringer"]],
+  ["3. Sikkerhet, adferd og hygiene", ["3.1 Eksklusiv personlig bruk", "3.2 «En tæpping, en person»-regelen", "3.3 Nulltoleranse for unntak", "3.4 Gebyr for uautorisert tilgang", "3.5 Hygiene og krav til innesko", "3.6 Sosial adferd", "3.7 Forbudte substanser", "3.8 Barnesikkerhet", "3.9 Tilgang og verifisering for ungdom"]],
+  ["4. Drift og ansvarsfraskrivelse", ["4.1 Rett til oppsigelse", "4.2 Drift", "4.3 Ansvarsbegrensning", "4.4 Sikkerhet og personvern"]],
+  ["5. Særskilt garanti", ["5.1 Pris for livet"]],
+];
+---
+<Base title="Medlemsvilkår" description="Medlemsvilkår for SportSenter1.">
+  <section class="section">
+    <div class="container measure">
+      <p class="eyebrow">Medlemsvilkår</p>
+      <h1>En annerledes form for forpliktelse</h1>
+
+      <h3>Hvorfor reglene våre eksisterer</h3>
+      <p>Ved SportSenter1 driver vi ikke bare et «gym» eller et vanlig treningsstudio. Vi driver sentre for helse og velvære. Selv om det kan virke som en liten nyanse i språket, representerer det en enorm forskjell i filosofi. Vi er ikke her kun for å hjelpe deg med å bygge muskler på bekostning av helsen din, livskvaliteten din, eller trivselen til personen som trener ved siden av deg.</p>
+
+      <h3>Vi verdsetter helse over forfengelighet</h3>
+      <p>Teamet vårt har flere tiår med erfaring, og vi har sett baksiden av denne bransjen. På grunn av dette tar vi medlemmenes mentale helse på største alvor, og vi står skulder ved skulder med Antidoping Norge. Hvis ditt primære mål er å bli profesjonell kroppsbygger for enhver pris, sier vi med oppriktig respekt: da er vi ikke det rette stedet for deg. Vårt senter eksisterer for å forbedre livet ditt gjennom en stabil og varig reise mot dine helse- og treningsmål.</p>
+
+      <h3>Tanken bak våre standarder</h3>
+      <p>I medlemsvilkårene våre finner du regler knyttet til sosial oppførsel, dopingkontroll og kleskode. Dette er ikke ment som unødvendige begrensninger; det er tiltak for å beskytte miljøet vårt – blant annet en bevisst kleskode (T-skjorte fremfor singlet) for å flytte fokus bort fra speilet, og klare forventninger til respektfull oppførsel og rydding etter seg.</p>
+
+      <h3>Vårt løfte om tillit</h3>
+      <p>Vi har tro på lojalitet, og derfor tilbyr vi garantien «Pris for livet». Til gjengjeld ber vi om din integritet – enten det gjelder sikkerhetsprotokollene for vår 24-timers drift eller vårt standpunkt mot doping. Vi behandler deg som en ansvarlig voksen, og forventer det samme i retur.</p>
+
+      <hr style="margin:40px 0;border:none;border-top:1px solid var(--line)" />
+
+      <h2>Medlemsvilkår</h2>
+      <p style="background:var(--bg-3);padding:14px 18px;border-radius:8px;color:var(--muted-text)">
+        <strong>Merk:</strong> Strukturen under gjengir vilkårenes inndeling. Den fullstendige klausulteksten bør limes inn fra SportSenter1 sine offisielle medlemsvilkår.
+      </p>
+      {sections.map((s) => (
+        <div>
+          <h3>{s[0]}</h3>
+          <ul>{s[1].map((x) => (<li>{x}</li>))}</ul>
+        </div>
+      ))}
+      <p><strong>Oppsigelse</strong> skjer skriftlig per e-post: avdeling Kolbotn <a href="mailto:post@sportsenter1.no">post@sportsenter1.no</a>, avdeling Vinterbro <a href="mailto:vinterbro@sportsenter1.no">vinterbro@sportsenter1.no</a>.</p>
+    </div>
+  </section>
+</Base>

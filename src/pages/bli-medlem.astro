@@ -1,0 +1,56 @@
+---
+import Base from "../layouts/Base.astro";
+const packages = [
+  { name: "Bronse", tag: "Kom i gang", perks: ["Tilgang til én avdeling", "Trening 24/7", "Garderobe og fasiliteter"] },
+  { name: "Sølv", tag: "Mest populær", perks: ["Tilgang til begge avdelinger", "Trening 24/7", "Alle gruppetimer inkludert"], featured: true },
+  { name: "Gull", tag: "Alt inkludert", perks: ["Tilgang til begge avdelinger", "Alle gruppetimer", "Livstids prisgaranti", "Ekstra medlemsfordeler"] },
+];
+---
+<Base title="Bli medlem" description="Bli medlem hos SportSenter1 på Kolbotn og Vinterbro. Trening 24/7, gruppetimer og livstids prisgaranti. Start din treningsreise i dag.">
+  <section class="hero page-hero">
+    <img class="hero__bg" src="/img/16e925_3cde3dcd7c0447398f19b9ef5e84dc6e~mv2.png" alt="Bli medlem hos SportSenter1" />
+    <div class="container hero__inner">
+      <p class="eyebrow">Bli medlem</p>
+      <h1>Start din treningsreise</h1>
+      <p>Bli medlem nå og lås prisen din med vår livstids prisgaranti – ingen overraskelser, bare muskler!</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center measure"><p class="eyebrow">Medlemskap</p><h2>Velg pakken som passer deg</h2></div>
+      <div class="grid grid-3" style="margin-top:36px">
+        {packages.map((p) => (
+          <div class="card" style={p.featured ? "border:2px solid var(--orange)" : ""}>
+            <div class="card__body">
+              <p class="eyebrow">{p.tag}</p>
+              <h3>{p.name}</h3>
+              <ul>{p.perks.map((x) => (<li>{x}</li>))}</ul>
+              <p style="color:var(--muted-text)"><em>Pris fylles inn / kobles til bookingsystemet.</em></p>
+              <a class="btn" href="#innmelding">Velg {p.name}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Prisgaranti</p>
+        <h2>Prisen din øker aldri</h2>
+        <p>Med vår livstids prisgaranti vil medlemsprisen din aldri øke. Bli medlem nå og lås prisen din – for alltid.</p>
+      </div>
+      <div>
+        <h3 id="innmelding">Innmelding</h3>
+        <p>Innmelding skjer i dag i resepsjonen på din avdeling, eller via vårt medlemssystem. Ta kontakt så hjelper vi deg i gang!</p>
+        <p>
+          <a class="btn btn--blue" href="/kolbotn">Meld deg inn – Kolbotn</a>
+          <a class="btn btn--blue" href="/vinterbro" style="margin-left:8px">Meld deg inn – Vinterbro</a>
+        </p>
+        <!-- TODO: koble innmeldingsskjema til medlemssystemet her -->
+      </div>
+    </div>
+  </section>
+</Base>
