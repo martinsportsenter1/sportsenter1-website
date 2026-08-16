@@ -14,7 +14,9 @@
         #sections { max-width: 1100px; margin: 0 auto; width: 100%; }
 
         /* Section banner heading — staff-editable via the top campaign's bannerTitle field */
-        .banner-title { text-align: center; color: #E8813C; font-family: 'Sora','Poppins',sans-serif; font-weight: 800; font-size: clamp(2.4rem, 7.5vw, 5rem); line-height: 1.1; margin: 0 0 36px; letter-spacing: .01em; }
+        .banner-title { text-align: center; color: #E8813C; font-family: 'Sora','Poppins',sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.1; margin: 0 0 36px; letter-spacing: .01em; }
+        /* Én linje på desktop (som i annonsen); wrapper kun på små skjermer */
+        @media (min-width: 761px) { .banner-title { white-space: nowrap; } }
         /* Auto-add the dotted flourish so staff only type the phrase */
         .banner-title::before { content: '...'; margin-right: .18em; letter-spacing: .04em; }
         .banner-title::after  { content: '...'; margin-left: .18em; letter-spacing: .04em; }
