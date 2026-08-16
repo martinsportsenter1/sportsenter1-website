@@ -23,18 +23,19 @@
         @media (max-width: 560px) { .banner-title::before, .banner-title::after { content: ''; margin: 0; } }
 
         /* Campaign banner: text left, image right */
-        .campaign { display: flex; gap: 34px; align-items: center; }
+        .campaign { display: flex; gap: 34px; align-items: stretch; }
         .campaign__text { flex: 1 1 50%; min-width: 0; }
         .campaign__media { flex: 1 1 48%; min-width: 0; }
-        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 700; font-size: clamp(1.9rem, 3.6vw, 2.8rem); margin-bottom: 18px; color: #fff; letter-spacing: -.01em; }
+        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 700; font-size: clamp(1.4rem, 2.4vw, 2.2rem); margin-bottom: 16px; color: #fff; letter-spacing: -.01em; }
         .campaign__body { margin-bottom: 16px; }
         .campaign__body .line { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; }
         .campaign__body .bullet { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; padding-left: 1.25em; position: relative; }
         .campaign__body .bullet::before { content: '\2022'; position: absolute; left: .3em; }
-        .campaign__fineprint { font-size: .95rem; color: #a7a9ab; margin-bottom: 22px; line-height: 1.55; }
-        .campaign__cta { display: inline-block; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
+        .campaign__fineprint { font-size: .95rem; color: #a7a9ab; margin-top: 10px; text-align: right; line-height: 1.55; }
+        .campaign__cta { display: inline-block; margin-top: 26px; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
         .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
-        .campaign__img { width: 100%; height: auto; border-radius: 12px; object-fit: cover; display: block; }
+        .campaign__media { display: flex; }
+        .campaign__img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; display: block; }
 
         /* Events list */
         .events { margin-top: 36px; display: grid; gap: 18px; }
@@ -108,13 +109,6 @@
                 fp.textContent = c.finePrint;
                 text.appendChild(fp);
             }
-            if (c.ctaText && c.ctaLink) {
-                const cta = document.createElement('a');
-                cta.className = 'campaign__cta';
-                cta.href = c.ctaLink;
-                cta.textContent = c.ctaText;
-                text.appendChild(cta);
-            }
             wrap.appendChild(text);
 
             if (c.imageUrl) {
@@ -126,6 +120,17 @@
                 img.alt = c.title || 'Kampanje';
                 media.appendChild(img);
                 wrap.appendChild(media);
+            }
+            // CTA sits BELOW the text/image row, bottom-left — like the ad.
+            if (c.ctaText && c.ctaLink) {
+                const outer = document.createElement('div');
+                outer.appendChild(wrap);
+                const cta = document.createElement('a');
+                cta.className = 'campaign__cta';
+                cta.href = c.ctaLink;
+                cta.textContent = c.ctaText;
+                outer.appendChild(cta);
+                return outer;
             }
             return wrap;
         }
