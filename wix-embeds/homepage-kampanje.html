@@ -11,10 +11,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         /* Transparent so it blends with whatever the Wix section background is */
         body { background: transparent; font-family: 'Poppins', Helvetica, Arial, sans-serif; color: #ffffff; padding: 10px; min-height: 100vh; display: flex; align-items: center; }
-        #sections { max-width: 1100px; margin: 0 auto; width: 100%; }
+        #sections { max-width: 1600px; margin: 0 auto; width: 100%; padding: 0 16px; }
 
         /* Section banner heading — staff-editable via the top campaign's bannerTitle field */
-        .banner-title { text-align: center; color: #E8813C; font-family: 'Sora','Poppins',sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4.2vw, 3.4rem); line-height: 1.1; margin: 0 0 36px; letter-spacing: .01em; }
+        .banner-title { text-align: center; color: #E8813C; font-family: 'Sora','Poppins',sans-serif; font-weight: 800; font-size: clamp(1.9rem, 5vw, 4.4rem); line-height: 1.1; margin: 0 0 36px; letter-spacing: .01em; }
         /* Én linje på desktop (som i annonsen); wrapper kun på små skjermer */
         @media (min-width: 761px) { .banner-title { white-space: nowrap; } }
         /* Auto-add the dotted flourish so staff only type the phrase */
@@ -26,7 +26,7 @@
         .campaign { display: flex; gap: 34px; align-items: stretch; }
         .campaign__text { flex: 1 1 50%; min-width: 0; display: flex; flex-direction: column; }
         .campaign__media { flex: 1 1 48%; min-width: 0; }
-        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 400; font-size: clamp(1.4rem, 2.4vw, 2.2rem); margin-bottom: 16px; color: #fff; letter-spacing: -.01em; }
+        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 400; font-size: clamp(1.4rem, 2.6vw, 2.5rem); margin-bottom: 18px; color: #fff; letter-spacing: -.01em; }
         .campaign__title strong { font-weight: 700; }
         .campaign__body { margin-bottom: 16px; }
         .campaign__body .line { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; }
