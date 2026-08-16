@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampanje / Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Transparent so it blends with whatever the Wix section background is */
+        body { background: transparent; font-family: 'Poppins', Helvetica, Arial, sans-serif; color: #ffffff; padding: 10px; min-height: 100vh; display: flex; align-items: center; }
+        #sections { max-width: 1100px; margin: 0 auto; width: 100%; }
+
+        /* Section banner heading — staff-editable via the top campaign's bannerTitle field */
+        .banner-title { text-align: center; color: #E8813C; font-family: 'Sora','Poppins',sans-serif; font-weight: 800; font-size: clamp(2.4rem, 7.5vw, 5rem); line-height: 1.1; margin: 0 0 36px; letter-spacing: .01em; }
+        /* Auto-add the dotted flourish so staff only type the phrase */
+        .banner-title::before { content: '...'; margin-right: .18em; letter-spacing: .04em; }
+        .banner-title::after  { content: '...'; margin-left: .18em; letter-spacing: .04em; }
+        @media (max-width: 560px) { .banner-title::before, .banner-title::after { content: ''; margin: 0; } }
+
+        /* Campaign banner: text left, image right */
+        .campaign { display: flex; gap: 34px; align-items: center; }
+        .campaign__text { flex: 1 1 50%; min-width: 0; }
+        .campaign__media { flex: 1 1 48%; min-width: 0; }
+        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 700; font-size: clamp(1.9rem, 3.6vw, 2.8rem); margin-bottom: 18px; color: #fff; letter-spacing: -.01em; }
+        .campaign__body { margin-bottom: 16px; }
+        .campaign__body .line { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; }
+        .campaign__body .bullet { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; padding-left: 1.25em; position: relative; }
+        .campaign__body .bullet::before { content: '\2022'; position: absolute; left: .3em; }
+        .campaign__fineprint { font-size: .95rem; color: #a7a9ab; margin-bottom: 22px; line-height: 1.55; }
+        .campaign__cta { display: inline-block; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
+        .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
+        .campaign__img { width: 100%; height: auto; border-radius: 12px; object-fit: cover; display: block; }
+
+        /* Events list */
+        .events { margin-top: 36px; display: grid; gap: 18px; }
+        .events__heading { font-family: 'Sora','Poppins',sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 4px; color: #fff; }
+        .event-card { display: flex; gap: 22px; align-items: center; background: rgba(255,255,255,.05); border-radius: 14px; padding: 18px; }
+        .event-card__img { width: 190px; height: 120px; object-fit: cover; border-radius: 10px; flex: none; }
+        .event-card__date { color: #FFA500; font-weight: 600; font-size: .9rem; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+        .event-card__title { font-family: 'Sora','Poppins',sans-serif; font-weight: 700; font-size: 1.25rem; margin-bottom: 6px; }
+        .event-card__body .line { font-size: .98rem; line-height: 1.6; color: #e7e7e7; }
+        .event-card__cta { display: inline-block; margin-top: 10px; background: #5AA1CC; color: #10202a; font-weight: 700; padding: 9px 22px; border-radius: 22px; text-decoration: none; font-size: .9rem; }
+
+        @media (max-width: 760px) {
+            .campaign { flex-direction: column; align-items: stretch; gap: 20px; }
+            .campaign__media { order: -1; width: 100%; }
+            .campaign__title { font-size: 1.9rem; }
+            .event-card { flex-direction: column; text-align: center; }
+            .event-card__img { width: 100%; height: 190px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="sections"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCy7ChtwdvREnzEvm-FG0XcnB_FwpZOdf8",
+            authDomain: "sportsenter1-5f83f.firebaseapp.com",
+            projectId: "sportsenter1-5f83f",
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const root = document.getElementById('sections');
+
+        // Small helper: append body text split on newlines into .line rows (safe via textContent).
+        function appendLines(parent, text, lineClass) {
+            (text || '').split('\n').forEach(raw => {
+                const t = raw.trim();
+                if (!t) return;
+                const line = document.createElement('div');
+                // Lines starting with '- ' render as real bullets (like the ad)
+                if (t.startsWith('- ')) {
+                    line.className = 'bullet';
+                    line.textContent = t.slice(2);
+                } else {
+                    line.className = lineClass;
+                    line.textContent = t;
+                }
+                parent.appendChild(line);
+            });
+        }
+
+        function renderCampaign(c) {
+            const wrap = document.createElement('div');
+            wrap.className = 'campaign';
+
+            const text = document.createElement('div');
+            text.className = 'campaign__text';
+            const title = document.createElement('h2');
+            title.className = 'campaign__title';
+            title.textContent = c.title || '';
+            text.appendChild(title);
+            const body = document.createElement('div');
+            body.className = 'campaign__body';
+            appendLines(body, c.body, 'line');
+            text.appendChild(body);
+            if (c.finePrint) {
+                const fp = document.createElement('div');
+                fp.className = 'campaign__fineprint';
+                fp.textContent = c.finePrint;
+                text.appendChild(fp);
+            }
+            if (c.ctaText && c.ctaLink) {
+                const cta = document.createElement('a');
+                cta.className = 'campaign__cta';
+                cta.href = c.ctaLink;
+                cta.textContent = c.ctaText;
+                text.appendChild(cta);
+            }
+            wrap.appendChild(text);
+
+            if (c.imageUrl) {
+                const media = document.createElement('div');
+                media.className = 'campaign__media';
+                const img = document.createElement('img');
+                img.className = 'campaign__img';
+                img.src = c.imageUrl;
+                img.alt = c.title || 'Kampanje';
+                media.appendChild(img);
+                wrap.appendChild(media);
+            }
+            return wrap;
+        }
+
+        function renderEvent(e) {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            if (e.imageUrl) {
+                const img = document.createElement('img');
+                img.className = 'event-card__img';
+                img.src = e.imageUrl;
+                img.alt = e.title || 'Event';
+                card.appendChild(img);
+            }
+            const info = document.createElement('div');
+            info.className = 'event-card__info';
+            if (e.dateText) {
+                const d = document.createElement('div');
+                d.className = 'event-card__date';
+                d.textContent = e.dateText;
+                info.appendChild(d);
+            }
+            const title = document.createElement('div');
+            title.className = 'event-card__title';
+            title.textContent = e.title || '';
+            info.appendChild(title);
+            const body = document.createElement('div');
+            body.className = 'event-card__body';
+            appendLines(body, e.body, 'line');
+            info.appendChild(body);
+            if (e.ctaText && e.ctaLink) {
+                const cta = document.createElement('a');
+                cta.className = 'event-card__cta';
+                cta.href = e.ctaLink;
+                cta.textContent = e.ctaText;
+                info.appendChild(cta);
+            }
+            card.appendChild(info);
+            return card;
+        }
+
+        db.collection('websiteSections').get()
+          .then(snap => {
+              const docs = snap.docs.map(d => d.data()).filter(d => d.active === true);
+              const byOrder = (a, b) => (a.order ?? 999) - (b.order ?? 999);
+              const campaigns = docs.filter(d => d.type === 'campaign').sort(byOrder);
+              const events = docs.filter(d => d.type === 'event').sort(byOrder);
+
+              // Staff-editable section heading (from the top campaign, else top event).
+              const bannerTitle = (campaigns[0] && campaigns[0].bannerTitle) || (events[0] && events[0].bannerTitle) || '';
+              if (bannerTitle) {
+                  const h = document.createElement('div');
+                  h.className = 'banner-title';
+                  h.textContent = bannerTitle;
+                  root.appendChild(h);
+              }
+
+              // Top (lowest-order) active campaign becomes the banner.
+              if (campaigns[0]) root.appendChild(renderCampaign(campaigns[0]));
+
+              // All active events, listed below.
+              if (events.length) {
+                  const wrap = document.createElement('div');
+                  wrap.className = 'events';
+                  events.forEach(e => wrap.appendChild(renderEvent(e)));
+                  root.appendChild(wrap);
+              }
+              // If nothing active, render nothing (section collapses).
+          })
+          .catch(err => { console.error('Feil ved lasting av seksjoner:', err); /* render nothing on error */ });
+    </script>
+</body>
+</html>
