@@ -6,7 +6,7 @@
     <title>Kampanje / Events</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         /* Transparent so it blends with whatever the Wix section background is */
@@ -24,14 +24,15 @@
 
         /* Campaign banner: text left, image right */
         .campaign { display: flex; gap: 34px; align-items: stretch; }
-        .campaign__text { flex: 1 1 50%; min-width: 0; }
+        .campaign__text { flex: 1 1 50%; min-width: 0; display: flex; flex-direction: column; }
         .campaign__media { flex: 1 1 48%; min-width: 0; }
-        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 700; font-size: clamp(1.4rem, 2.4vw, 2.2rem); margin-bottom: 16px; color: #fff; letter-spacing: -.01em; }
+        .campaign__title { font-family: 'Sora', 'Poppins', sans-serif; font-weight: 400; font-size: clamp(1.4rem, 2.4vw, 2.2rem); margin-bottom: 16px; color: #fff; letter-spacing: -.01em; }
+        .campaign__title strong { font-weight: 700; }
         .campaign__body { margin-bottom: 16px; }
         .campaign__body .line { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; }
         .campaign__body .bullet { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; padding-left: 1.25em; position: relative; }
         .campaign__body .bullet::before { content: '\2022'; position: absolute; left: .3em; }
-        .campaign__fineprint { font-size: .95rem; color: #a7a9ab; margin-top: 10px; text-align: right; line-height: 1.55; }
+        .campaign__fineprint { font-size: .95rem; color: #a7a9ab; margin-top: auto; padding-top: 10px; text-align: right; line-height: 1.55; }
         .campaign__cta { display: inline-block; margin-top: 26px; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
         .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
         .campaign__media { display: flex; }
@@ -97,7 +98,19 @@
             text.className = 'campaign__text';
             const title = document.createElement('h2');
             title.className = 'campaign__title';
-            title.textContent = c.title || '';
+            // Like the ad: the part BEFORE the dash is bold, the rest regular.
+            const tRaw = c.title || '';
+            const dashIdx = tRaw.search(/\s[–-]\s/);
+            if (dashIdx > 0) {
+                const strong = document.createElement('strong');
+                strong.textContent = tRaw.slice(0, dashIdx);
+                title.appendChild(strong);
+                title.appendChild(document.createTextNode(tRaw.slice(dashIdx)));
+            } else {
+                const strong = document.createElement('strong');
+                strong.textContent = tRaw;
+                title.appendChild(strong);
+            }
             text.appendChild(title);
             const body = document.createElement('div');
             body.className = 'campaign__body';
