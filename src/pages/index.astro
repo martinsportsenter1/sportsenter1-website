@@ -43,23 +43,16 @@ const features = [
     </div>
   </section>
 
-  <!-- Campaign -->
+  <!-- Campaign — live widget managed from the gym admin (admin → campaigns).
+       Same embed as the old Wix site; reads websiteSections from Firestore. -->
   <section class="section section--alt">
     <div class="container">
-      <div class="center"><h2 style="font-weight:600;letter-spacing:.04em">....... kampanje .......</h2></div>
-      <div class="split" style="margin-top:30px">
-        <div>
-          <p class="eyebrow">17. mai-kampanje</p>
-          <ul>
-            <li>2 mnd gratis trening</li>
-            <li>Gratis innmelding og adm.gebyr</li>
-            <li>Gratis veiledning</li>
-          </ul>
-          <p style="color:var(--muted-text)">Gjelder Gull-abonnement med 12 måneders bindingstid, ved innmelding 17.–31. mai.</p>
-          <a class="btn" href="/bli-medlem">Bli medlem</a>
-        </div>
-        <div><img src="/img/16e925_2530e27650be4e7b8179b0bbdacd14f8~mv2.jpg" alt="Trening hos SportSenter1" /></div>
-      </div>
+      <iframe
+        src="/embeds/kampanje.html"
+        title="Kampanje"
+        style="width:100%;height:700px;border:0;display:block"
+        loading="lazy"
+      ></iframe>
     </div>
   </section>
 

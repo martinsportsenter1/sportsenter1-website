@@ -13,6 +13,7 @@ const { kolbotn, vinterbro } = locations;
       <div>
         <h4>Avdeling {kolbotn.name}</h4>
         <p>{kolbotn.address}</p>
+        <p><a href={`mailto:${kolbotn.email}`}>{kolbotn.email}</a><br /><a href={site.phoneHref}>{site.phone}</a></p>
         <p><strong>Resepsjon:</strong><br />
           {kolbotn.hours.map((h) => (<span>{h[0]}: {h[1]}<br /></span>))}
         </p>
@@ -20,6 +21,7 @@ const { kolbotn, vinterbro } = locations;
       <div>
         <h4>Avdeling {vinterbro.name}</h4>
         <p>{vinterbro.address}</p>
+        <p><a href={`mailto:${vinterbro.email}`}>{vinterbro.email}</a><br /><a href={site.phoneHref}>{site.phone}</a></p>
         <p><strong>Resepsjon:</strong><br />
           {vinterbro.hours.map((h) => (<span>{h[0]}: {h[1]}<br /></span>))}
         </p>

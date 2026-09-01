@@ -44,9 +44,12 @@ const { loc, hero, gallery, joinLabel } = Astro.props;
   <section class="section section--alt">
     <div class="container">
       <div class="center measure"><p class="eyebrow">Timeplan {loc.name}</p><h2>Gruppetimer på {loc.name}</h2></div>
-      <div class="embed-slot" style="margin-top:30px">
-        <p><strong>Timeplan for {loc.name} kobles til her</strong> – embed/iframe eller API-kall til bookingsystemet, filtrert på denne avdelingen.</p>
-      </div>
+      <iframe
+        src={`/embeds/gruppetimer-${loc.name.toLowerCase()}.html`}
+        title={`Gruppetimer ${loc.name}`}
+        style="width:100%;height:1200px;border:0;display:block;margin-top:30px"
+        loading="lazy"
+      ></iframe>
     </div>
   </section>
 

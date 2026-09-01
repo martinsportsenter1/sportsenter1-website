@@ -1,0 +1,8 @@
+{
+  "hosting": {
+    "site": "sportsenter1-website",
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*"],
+    "cleanUrls": true
+  }
+}

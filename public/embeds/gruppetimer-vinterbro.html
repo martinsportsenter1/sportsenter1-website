@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinterbro Class Schedule</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #121212; color: #EEEEEE; font-family: Helvetica, Arial, sans-serif; padding: 20px 0; }
+
+        /* Full-width month title above both columns */
+        .top-month-heading { max-width: 1160px; margin: 0 auto; padding: 22px 20px 0; text-align: center; font-size: 2.6rem; font-weight: 700; color: #EEEEEE; }
+        .top-month-heading:empty { display: none; }
+        /* Two-column layout: schedule text left, feature image right */
+        .layout { display: flex; gap: 28px; max-width: 1160px; margin: 0 auto; padding: 12px 20px 20px; align-items: flex-start; }
+        .left-col { flex: 1 1 55%; min-width: 0; }
+        .right-col { flex: 0 0 41%; position: sticky; top: 20px; }
+        .feature-img { width: 100%; height: auto; display: block; border-radius: 12px; object-fit: cover; }
+
+        .feature-caption { margin-top: 10px; font-size: 0.95rem; color: #cfcfcf; text-align: center; font-weight: 500; }
+        #classes-container { width: 100%; }
+        .month-heading { font-size: 2.2rem; margin: 8px 0 20px; color: #EEEEEE; text-align: center; font-weight: 700; }
+        .month-heading:not(:first-child) { margin-top: 40px; }
+        .class-card { background-color: #212121; color: white; border-radius: 12px; padding: 20px; width: 100%; position: relative; display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; overflow: hidden; }
+        .left-container { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 5px; z-index: 2; font-weight: 500; flex: 1; }
+        .center-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.7rem; font-weight: bold; text-align: center; z-index: 1; pointer-events: none; white-space: nowrap; }
+        .yoga-class { font-size: 2rem !important; }
+        .right-container { font-size: 1rem; color: #F5F5F5; z-index: 2; font-weight: 500; text-align: right; flex: 1; }
+        .date-text { font-size: 1rem; }
+        .time-text { font-size: 1rem; color: #F5F5F5; }
+        .location-text { font-size: 1rem; }
+
+        /* Tablet: image drops below the heading area, schedule keeps full width */
+        @media (max-width: 900px) {
+            .layout { flex-direction: column; padding: 14px; gap: 18px; }
+            .right-col { position: static; flex: none; width: 100%; order: -1; }
+            .feature-img { max-height: 340px; }
+        }
+        /* Phone: stack each card's contents (unchanged behaviour) */
+        @media (max-width: 768px) {
+            .top-month-heading { font-size: 2rem; padding-top: 16px; }
+            .month-heading { font-size: 2rem; }
+            .class-card { flex-direction: column; text-align: center; padding: 15px; }
+            .left-container, .right-container { align-items: center !important; text-align: center; margin-bottom: 10px; }
+            .center-container { position: relative; top: unset; left: unset; transform: none; margin: 10px 0; font-size: 1.6rem; order: -1; }
+            .yoga-class { font-size: 1.8rem !important; }
+            .date-text, .time-text, .location-text { font-size: 0.9rem; }
+            .right-container { text-align: center; font-size: 0.9rem; }
+        }
+        @media (max-width: 480px) {
+            .top-month-heading { font-size: 1.8rem; }
+            .month-heading { font-size: 1.8rem; }
+            .center-container { font-size: 1.4rem; white-space: normal; }
+            .yoga-class { font-size: 1.5rem !important; }
+        }
+    </style>
+</head>
+<body>
+    <h2 id="top-month" class="top-month-heading"></h2>
+    <div class="layout">
+        <div class="left-col"><div id="classes-container"></div></div>
+        <div class="right-col">
+            <img id="feature-img" class="feature-img"
+                 src="https://static.wixstatic.com/media/16e925_2530e27650be4e7b8179b0bbdacd14f8~mv2.jpg"
+                 alt="Gruppetimer hos SportSenter1 Vinterbro" />
+            <div id="feature-caption" class="feature-caption" style="display:none"></div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+        const COLLECTION = "vinterbro_class_schedule";
+        const DEFAULT_LOCATION = "VINTERBRO";
+        // Staff-editable feature image lives in gruppetimerConfig/<location>. If the doc/rule
+        // isn't live yet (or read is denied), we silently keep the fallback image below.
+        const CONFIG_DOC_ID = "vinterbro";
+        const FALLBACK_IMG = "https://static.wixstatic.com/media/16e925_2530e27650be4e7b8179b0bbdacd14f8~mv2.jpg";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCy7ChtwdvREnzEvm-FG0XcnB_FwpZOdf8",
+            authDomain: "sportsenter1-5f83f.firebaseapp.com",
+            projectId: "sportsenter1-5f83f",
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const container = document.getElementById('classes-container');
+
+        // Best-effort: pull the staff-configurable feature image + caption. Any failure
+        // (doc missing, rule not deployed yet, offline) just leaves the fallback image in place.
+        (function loadFeatureImage() {
+            db.collection('gruppetimerConfig').doc(CONFIG_DOC_ID).get()
+              .then(doc => {
+                  if (!doc.exists) return;
+                  const d = doc.data() || {};
+                  if (d.featureImageUrl) document.getElementById('feature-img').src = d.featureImageUrl;
+                  if (d.featureImageCaption) {
+                      const cap = document.getElementById('feature-caption');
+                      cap.textContent = d.featureImageCaption;
+                      cap.style.display = 'block';
+                  }
+              })
+              .catch(() => { /* keep fallback image */ });
+        })();
+
+        const TZ = 'Europe/Oslo';
+        function osloYMD(dateStr) { return new Date(dateStr).toLocaleDateString('en-CA', { timeZone: TZ }); }
+        function formatFullNorwegianDate(dateStr) {
+            const d = new Date(dateStr);
+            const dayName = d.toLocaleDateString('no-NO', { timeZone: TZ, weekday: 'long' });
+            const dayNum = d.toLocaleDateString('en-US', { timeZone: TZ, day: 'numeric' }) + '.';
+            const monthName = d.toLocaleDateString('no-NO', { timeZone: TZ, month: 'long' });
+            return `${dayName} ${dayNum} ${monthName}`;
+        }
+        function formatMonthYear(dateStr) { return new Date(dateStr).toLocaleString('no-NO', { timeZone: TZ, month: 'long', year: 'numeric' }); }
+        function capitalizeFirstLetter(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+        function tailwindBgToBrightPastel(bgClass) {
+            const pastelMap = { "bg-green-500":"#A8F0C6","bg-blue-500":"#A8D7F0","bg-red-500":"#F0A8A8","bg-yellow-500":"#FFF7AA","bg-purple-500":"#D6A8F0","bg-pink-500":"#F0A8D7","bg-indigo-500":"#B8B8F0","bg-orange-500":"#FFD1A8" };
+            return pastelMap[bgClass] || "#E0E0E0";
+        }
+
+        const todayKey = new Date().toLocaleDateString('en-CA', { timeZone: TZ });
+
+        db.collection(COLLECTION).orderBy("date").get()
+          .then(snapshot => {
+              if (snapshot.empty) { container.innerText = "Ingen timer funnet."; return; }
+              const grouped = {};
+              snapshot.forEach(doc => {
+                  const data = doc.data();
+                  const dayKey = osloYMD(data.date);
+                  if (dayKey < todayKey) return;
+                  const monthYear = formatMonthYear(data.date);
+                  if (!grouped[monthYear]) grouped[monthYear] = {};
+                  if (!grouped[monthYear][dayKey]) grouped[monthYear][dayKey] = [];
+                  grouped[monthYear][dayKey].push(data);
+              });
+              if (Object.keys(grouped).length === 0) { container.innerText = "Ingen kommende timer."; return; }
+              let monthIndex = 0;
+              for (const monthYear in grouped) {
+                  if (monthIndex === 0) {
+                      // First (current) month becomes the full-width title above both columns.
+                      document.getElementById('top-month').textContent = capitalizeFirstLetter(monthYear);
+                  } else {
+                      const monthHeading = document.createElement('h2');
+                      monthHeading.innerText = capitalizeFirstLetter(monthYear);
+                      monthHeading.className = 'month-heading';
+                      container.appendChild(monthHeading);
+                  }
+                  monthIndex++;
+                  for (const dayKey in grouped[monthYear]) {
+                      grouped[monthYear][dayKey].sort((a, b) => {
+                          const aTime = a.start.split(':').map(Number);
+                          const bTime = b.start.split(':').map(Number);
+                          return aTime[0] - bTime[0] || aTime[1] - bTime[1];
+                      });
+                      grouped[monthYear][dayKey].forEach(data => {
+                          const card = document.createElement('div');
+                          card.className = 'class-card';
+                          const firstColorClass = (data.color || '').split(' ')[0];
+                          const pastelColor = tailwindBgToBrightPastel(firstColorClass);
+                          const leftContainer = document.createElement('div');
+                          leftContainer.className = 'left-container';
+                          leftContainer.style.color = pastelColor;
+                          const date = document.createElement('div');
+                          date.innerText = formatFullNorwegianDate(data.date);
+                          date.className = 'date-text';
+                          const time = document.createElement('div');
+                          time.innerText = `${data.start} - ${data.end}`;
+                          time.className = 'time-text';
+                          const location = document.createElement('div');
+                          location.innerText = data.location || DEFAULT_LOCATION;
+                          location.className = 'location-text';
+                          leftContainer.appendChild(date);
+                          leftContainer.appendChild(time);
+                          leftContainer.appendChild(location);
+                          const centerContainer = document.createElement('div');
+                          centerContainer.innerText = data.className;
+                          centerContainer.className = 'center-container';
+                          if (/yoga/i.test(data.className)) centerContainer.classList.add('yoga-class');
+                          centerContainer.style.color = pastelColor;
+                          const rightContainer = document.createElement('div');
+                          rightContainer.innerText = `Med ${data.instructor}`;
+                          rightContainer.className = 'right-container';
+                          card.appendChild(leftContainer);
+                          card.appendChild(centerContainer);
+                          card.appendChild(rightContainer);
+                          container.appendChild(card);
+                      });
+                  }
+              }
+          })
+          .catch(err => { console.error("Feil ved henting av timer:", err); container.innerText = "Feil ved lasting av timer."; });
+    </script>
+</body>
+</html>

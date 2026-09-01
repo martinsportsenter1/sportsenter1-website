@@ -40,11 +40,14 @@ const classes = [
       <div class="center measure"><p class="eyebrow">Timeplan</p><h2>Ukens timeplan</h2>
         <p class="lead">Book din time direkte. Timeplanen oppdateres fra vårt eget bookingsystem.</p>
       </div>
-      <!-- TODO: bytt ut denne plassholderen med embed/iframe eller API-kall til deres bookingsystem -->
-      <div class="embed-slot" style="margin-top:30px">
-        <p><strong>Timeplan / booking-modul kobles til her.</strong></p>
-        <p>Her settes inn embed-koden (iframe) eller widget fra det egenbygde bookingsystemet, eller et API-kall som henter dagens timer.</p>
-      </div>
+      <!-- Live schedule widget — reads {loc}_class_schedule from Firestore
+           (same embed as the old Wix site; updated from Schedule Set Up). -->
+      <iframe
+        src="/embeds/gruppetimer.html"
+        title="Ukens timeplan"
+        style="width:100%;height:1500px;border:0;display:block;margin-top:30px"
+        loading="lazy"
+      ></iframe>
     </div>
   </section>
 
