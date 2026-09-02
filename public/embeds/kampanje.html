@@ -51,11 +51,25 @@
         .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
         .campaign__media { display: flex; }
         .campaign__media { aspect-ratio: 16 / 9; align-self: center; }
-        .campaign--rich { display: block; }
-        .campaign--rich .campaign__text { display: block; } /* floats need block flow */
-        .campaign--rich .campaign__media { float: right; width: 46%; margin: 6px 0 18px 26px; aspect-ratio: 16 / 9; }
-        .campaign--rich::after { content: ''; display: block; clear: both; }
-        @media (max-width: 700px) { .campaign--rich .campaign__media { float: none; width: 100%; margin: 0 0 16px; } }
+        /* Rich campaigns follow Chris' PT-annonse PDF (02.09): two equal
+           columns, compact text left, the image STRETCHED to the full height
+           of the text column on the right (object-fit: cover crops it). */
+        .campaign--rich { display: flex; gap: 34px; align-items: stretch; }
+        .campaign--rich .campaign__text { display: block; flex: 1 1 50%; min-width: 0; }
+        .campaign--rich .campaign__media { flex: 1 1 48%; min-width: 0; margin: 0; aspect-ratio: auto; align-self: stretch; min-height: 280px; }
+        /* contain, not cover: campaign text is often baked INTO the image —
+           never crop it. The letterbox bands blend into the dark background. */
+        .campaign--rich .campaign__img { object-fit: contain; }
+        /* PDF typography: headings bold at body size, tight leading, a gap
+           only BETWEEN the sections. */
+        .campaign--rich .campaign__rich { font-size: 1.02rem; line-height: 1.45; }
+        .campaign--rich .campaign__rich p { margin: 0; }
+        .campaign--rich .campaign__rich h2, .campaign--rich .campaign__rich h3 { font-size: 1.02rem; font-weight: 700; margin: .9em 0 .1em; }
+        .campaign--rich .campaign__rich h2:first-child, .campaign--rich .campaign__rich h3:first-child { margin-top: 0; }
+        @media (max-width: 700px) {
+            .campaign--rich { flex-direction: column; gap: 14px; }
+            .campaign--rich .campaign__media { width: 100%; min-height: 0; aspect-ratio: 16 / 9; order: -1; }
+        }
         .campaign__img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; display: block; }
 
         /* Events list */
@@ -164,16 +178,6 @@
             } else {
                 appendLines(body, c.body, 'line');
             }
-            if (c.bodyHtml && c.imageUrl) {
-                const media = document.createElement('div');
-                media.className = 'campaign__media';
-                const img = document.createElement('img');
-                img.className = 'campaign__img';
-                img.src = c.imageUrl;
-                img.alt = c.title || 'Kampanje';
-                media.appendChild(img);
-                text.appendChild(media); // appended before body → floats right, text wraps
-            }
             text.appendChild(body);
             if (c.finePrint) {
                 const fp = document.createElement('div');
@@ -183,7 +187,9 @@
             }
             wrap.appendChild(text);
 
-            if (c.imageUrl && !c.bodyHtml) {
+            // Media is a SIBLING column of the text (both layouts) — for rich
+            // campaigns flex stretches it to the text column's full height.
+            if (c.imageUrl) {
                 const media = document.createElement('div');
                 media.className = 'campaign__media';
                 const img = document.createElement('img');
