@@ -23,9 +23,9 @@
         /* Én linje på desktop (som i annonsen); wrapper kun på små skjermer */
         @media (min-width: 761px) { .banner-title { white-space: nowrap; } }
         /* Auto-add the dotted flourish so staff only type the phrase */
-        .banner-title::before { content: '...'; margin-right: .18em; letter-spacing: .04em; }
-        .banner-title::after  { content: '...'; margin-left: .18em; letter-spacing: .04em; }
-        @media (max-width: 560px) { .banner-title::before, .banner-title::after { content: ''; margin: 0; } }
+        /* Dots are set in JS with no-break spaces so they can never wrap onto
+           their own line (Martin 02.09: "tre prikker under tittel"); hidden on
+           small screens like before. */
 
         /* Campaign banner: text left, image right */
         .campaign { display: flex; gap: 34px; align-items: stretch; }
@@ -50,7 +50,7 @@
         .campaign__cta { display: inline-block; margin-top: 26px; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
         .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
         .campaign__media { display: flex; }
-        .campaign__media { aspect-ratio: 16 / 9; align-self: start; }
+        .campaign__media { aspect-ratio: 16 / 9; align-self: center; }
         .campaign__img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; display: block; }
 
         /* Events list */
@@ -150,6 +150,11 @@
                 // derived bannerTitle field) — don't repeat it in the column.
                 const h1 = rich.querySelector('h1');
                 if (h1) h1.remove();
+                // Drop empty headings/paragraphs the editor leaves behind
+                // (e.g. <h2><br></h2>) — they render as blank gaps.
+                rich.querySelectorAll('h1, h2, h3, p').forEach((el) => {
+                    if (!el.textContent.trim() && !el.querySelector('img')) el.remove();
+                });
                 body.appendChild(rich);
             } else {
                 appendLines(body, c.body, 'line');
@@ -244,7 +249,12 @@
               if (bannerTitle) {
                   const h = document.createElement('div');
                   h.className = 'banner-title';
-                  h.textContent = bannerTitle;
+                  const setBanner = () => {
+                      const small = window.matchMedia('(max-width: 560px)').matches;
+                      h.textContent = small ? bannerTitle : '...\u00A0' + bannerTitle + '\u00A0...';
+                  };
+                  setBanner();
+                  window.addEventListener('resize', setBanner);
                   root.appendChild(h);
               }
 
