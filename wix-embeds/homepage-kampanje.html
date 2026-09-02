@@ -50,6 +50,7 @@
         .campaign__cta { display: inline-block; margin-top: 26px; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
         .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
         .campaign__media { display: flex; }
+        .campaign__media { aspect-ratio: 16 / 9; align-self: start; }
         .campaign__img { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; display: block; }
 
         /* Events list */
@@ -260,6 +261,22 @@
               // If nothing active, render nothing (section collapses).
           })
           .catch(err => { console.error('Feil ved lasting av seksjoner:', err); /* render nothing on error */ });
+    
+        // Auto-height for host pages that listen (the Astro site does; the
+        // Wix embed keeps its fixed frame and ignores these messages).
+        function postHeight() {
+            // Measure the CONTENT, not the document — body has min-height:100vh
+            // + centering, so documentElement.scrollHeight tracks the iframe
+            // size and feeds back into the parent's resize (grew to the cap).
+            try {
+                const el = document.getElementById('sections');
+                const h = el ? Math.ceil(el.getBoundingClientRect().height) + 40 : 0;
+                if (h > 60) parent.postMessage({ sp1Embed: 'kampanje', height: h }, '*');
+            } catch (e) {}
+        }
+        window.addEventListener('load', () => { postHeight(); setTimeout(postHeight, 800); setTimeout(postHeight, 2500); });
+        new MutationObserver(() => postHeight()).observe(document.body, { childList: true, subtree: true });
+        window.addEventListener('resize', postHeight);
     </script>
 </body>
 </html>

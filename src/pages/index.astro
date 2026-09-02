@@ -48,11 +48,22 @@ const features = [
   <section class="section section--alt">
     <div class="container">
       <iframe
+        id="kampanje-embed"
         src="/embeds/kampanje.html"
         title="Kampanje"
         style="width:100%;height:700px;border:0;display:block"
         loading="lazy"
       ></iframe>
+      <script>
+        // The widget reports its real height (tall rich campaigns were clipped
+        // at the fixed 700px).
+        window.addEventListener("message", (e) => {
+          if (e?.data?.sp1Embed === "kampanje" && Number(e.data.height) > 0) {
+            const f = document.getElementById("kampanje-embed");
+            if (f) f.style.height = Math.min(Number(e.data.height) + 20, 4000) + "px";
+          }
+        });
+      </script>
     </div>
   </section>
 
