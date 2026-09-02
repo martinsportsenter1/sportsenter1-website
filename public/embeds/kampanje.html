@@ -120,22 +120,24 @@
 
             const text = document.createElement('div');
             text.className = 'campaign__text';
-            const title = document.createElement('h2');
-            title.className = 'campaign__title';
-            // Like the ad: the part BEFORE the dash is bold, the rest regular.
-            const tRaw = c.title || '';
-            const dashIdx = tRaw.search(/\s[–-]\s/);
-            if (dashIdx > 0) {
-                const strong = document.createElement('strong');
-                strong.textContent = tRaw.slice(0, dashIdx);
-                title.appendChild(strong);
-                title.appendChild(document.createTextNode(tRaw.slice(dashIdx)));
-            } else {
-                const strong = document.createElement('strong');
-                strong.textContent = tRaw;
-                title.appendChild(strong);
+            if (!c.bodyHtml) {
+                const title = document.createElement('h2');
+                title.className = 'campaign__title';
+                // Like the ad: the part BEFORE the dash is bold, the rest regular.
+                const tRaw = c.title || '';
+                const dashIdx = tRaw.search(/\s[–-]\s/);
+                if (dashIdx > 0) {
+                    const strong = document.createElement('strong');
+                    strong.textContent = tRaw.slice(0, dashIdx);
+                    title.appendChild(strong);
+                    title.appendChild(document.createTextNode(tRaw.slice(dashIdx)));
+                } else {
+                    const strong = document.createElement('strong');
+                    strong.textContent = tRaw;
+                    title.appendChild(strong);
+                }
+                text.appendChild(title);
             }
-            text.appendChild(title);
             const body = document.createElement('div');
             body.className = 'campaign__body';
             if (c.bodyHtml) {
@@ -143,6 +145,10 @@
                 const rich = document.createElement('div');
                 rich.className = 'campaign__rich';
                 rich.innerHTML = (window.DOMPurify ? DOMPurify.sanitize(c.bodyHtml) : c.bodyHtml);
+                // First H1 = the section banner (rendered separately from the
+                // derived bannerTitle field) — don't repeat it in the column.
+                const h1 = rich.querySelector('h1');
+                if (h1) h1.remove();
                 body.appendChild(rich);
             } else {
                 appendLines(body, c.body, 'line');
