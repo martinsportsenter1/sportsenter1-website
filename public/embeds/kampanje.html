@@ -267,9 +267,12 @@
 
               // Staff-editable section heading (from the top campaign, else top event).
               const bannerTitle = (campaigns[0] && campaigns[0].bannerTitle) || (events[0] && events[0].bannerTitle) || '';
+              // Colour picked on the H1 in the admin editor ('' = default orange).
+              const bannerColor = (campaigns[0] && campaigns[0].bannerColor) || (events[0] && events[0].bannerColor) || '';
               if (bannerTitle) {
                   const h = document.createElement('div');
                   h.className = 'banner-title';
+                  if (bannerColor) h.style.color = bannerColor;
                   const setBanner = () => {
                       const small = window.matchMedia('(max-width: 560px)').matches;
                       h.textContent = small ? bannerTitle : '...\u00A0' + bannerTitle + '\u00A0...';
