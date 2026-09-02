@@ -37,6 +37,15 @@
         .campaign__body .line { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; }
         .campaign__body .bullet { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; padding-left: 1.25em; position: relative; }
         .campaign__body .bullet::before { content: '\2022'; position: absolute; left: .3em; }
+        /* WYSIWYG content (bodyHtml from the admin editor) */
+        .campaign__rich { font-size: 1.2rem; line-height: 1.8; color: #f0f0f0; }
+        .campaign__rich p { margin: 0 0 .4em; }
+        .campaign__rich h2, .campaign__rich h3 { color: #fff; margin: .2em 0 .4em; line-height: 1.25; }
+        .campaign__rich ul, .campaign__rich ol { margin: 0 0 .5em; padding-left: 1.4em; }
+        .campaign__rich a { color: #5AA1CC; }
+        .campaign__rich img { max-width: 100%; border-radius: 10px; display: block; margin: .5em 0; }
+        .campaign__rich .ql-align-center { text-align: center; }
+        .campaign__rich .ql-align-right { text-align: right; }
         .campaign__fineprint { font-size: .95rem; color: #a7a9ab; margin-top: auto; padding-top: 10px; text-align: right; line-height: 1.55; }
         .campaign__cta { display: inline-block; margin-top: 26px; background: #F5B183; border: 3px solid #E8813C; color: #7A3E12; font-family: 'Sora','Poppins',sans-serif; font-weight: 700; padding: 15px 38px; border-radius: 28px; text-decoration: none; font-size: 1.05rem; transition: background .2s, transform .2s; }
         .campaign__cta:hover { background: #f2a566; transform: translateY(-2px); }
@@ -76,6 +85,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCy7ChtwdvREnzEvm-FG0XcnB_FwpZOdf8",
@@ -128,7 +138,15 @@
             text.appendChild(title);
             const body = document.createElement('div');
             body.className = 'campaign__body';
-            appendLines(body, c.body, 'line');
+            if (c.bodyHtml) {
+                // Rich content from the admin WYSIWYG editor (Chris' free formats).
+                const rich = document.createElement('div');
+                rich.className = 'campaign__rich';
+                rich.innerHTML = (window.DOMPurify ? DOMPurify.sanitize(c.bodyHtml) : c.bodyHtml);
+                body.appendChild(rich);
+            } else {
+                appendLines(body, c.body, 'line');
+            }
             text.appendChild(body);
             if (c.finePrint) {
                 const fp = document.createElement('div');
@@ -186,7 +204,15 @@
             info.appendChild(title);
             const body = document.createElement('div');
             body.className = 'event-card__body';
-            appendLines(body, e.body, 'line');
+            if (e.bodyHtml) {
+                const rich = document.createElement('div');
+                rich.className = 'campaign__rich';
+                rich.style.fontSize = '.98rem';
+                rich.innerHTML = (window.DOMPurify ? DOMPurify.sanitize(e.bodyHtml) : e.bodyHtml);
+                body.appendChild(rich);
+            } else {
+                appendLines(body, e.body, 'line');
+            }
             info.appendChild(body);
             if (e.ctaText && e.ctaLink) {
                 const cta = document.createElement('a');
